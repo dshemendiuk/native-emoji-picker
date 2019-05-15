@@ -1,0 +1,39 @@
+{
+  "author": {
+    "name": "George McCann"
+  },
+  "bugs": {
+    "url": "https://github.com/CreateMarketing/Meteor-Emoji-Picker/issues"
+  },
+  "dependencies": {
+    "uglifyjs": "^2.4.11"
+  },
+  "deprecated": false,
+  "description": "A pure JS emoji picker because I couldn't find one that worked with meteor",
+  "devDependencies": {
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.5.0",
+    "uglify-js": "^2.8.22"
+  },
+  "homepage": "https://github.com/CreateMarketing",
+  "keywords": [
+    "meteor-emoji-picker",
+    "js-emoji",
+    "emoji"
+  ],
+  "license": "MIT",
+  "main": "dist/meteorEmoji.min.js",
+  "name": "meteor-emoji",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CreateMarketing/Meteor-Emoji-Picker.git"
+  },
+  "scripts": {
+    "build-debug": "browserify src/meteorEmoji.js -s MeteorEmoji -t [babelify] -o dist/meteorEmoji.js",
+    "build-min": "uglifyjs dist/meteorEmoji.js -c -o dist/meteorEmoji.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.7"
+}

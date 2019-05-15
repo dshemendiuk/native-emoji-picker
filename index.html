@@ -1,0 +1,46 @@
+<html>
+  <head>
+     <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
+    <style>
+      body {
+        text-align: center;
+        font-size: 16px;
+
+      }
+   
+      .container {
+        padding-top: 50px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      input, textarea {
+        font-size: 18px;
+        padding: 10px;
+        border: 1px solid #000;
+        border-radius: 2px;
+      }
+
+      input {
+        margin-bottom: 15px;
+      }
+
+       
+    </style>
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>Meteor Emoji Picker</h1>
+      <input data-meteor-emoji="true" type="text">
+      <input data-meteor-emoji-large="true" type="text">
+      <textarea data-meteor-emoji="true"></textarea>
+    </div>
+  </body>
+  <script src="dist/meteorEmoji.min.js"></script>
+  <script>
+    (() => {
+      new MeteorEmoji()
+    })()
+  </script>
+</html>
