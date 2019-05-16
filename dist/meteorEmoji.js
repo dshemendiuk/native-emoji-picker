@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.MeteorEmoji = f()}})(function(){var define,module,exports;return (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.MeteorEmoji = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["module"], factory);
@@ -59,11 +59,10 @@
     }, {
       key: "generateElements",
       value: function generateElements(emojiInput) {
-
         var clickLink = function clickLink(event) {
           var caretPos = emojiInput.selectionStart;
           emojiInput.value = emojiInput.value.substring(0, caretPos) + " " + event.target.innerHTML + emojiInput.value.substring(caretPos);
-          emojiPicker.style.display = "block";
+          emojiContainer.classList.add("emoji-picker-open");
 
           //trigger ng-change for angular
           if (typeof angular !== "undefined") {
@@ -74,7 +73,7 @@
         var clickCategory = function clickCategory(event) {
           var caretPos = emojiInput.selectionStart;
 
-          emojiPicker.style.display = "block";
+          emojiContainer.classList.add("emoji-picker-open");
 
           var hideUls = emojiPicker.querySelectorAll("ul"),
               i = 1,
@@ -84,22 +83,23 @@
             hideUls[i].style.display = "none";
           }
 
-          var backgroundToggle = emojiPicker.querySelectorAll(".category a");
+          var backgroundToggle = emojiPicker.querySelectorAll(".emoji-picker-tabs a");
 
           i = 0, l = backgroundToggle.length;
 
           for (i; i < l; i++) {
-            backgroundToggle[i].style.background = "none";
+            backgroundToggle[i].classList.remove("active");
           }
 
-          emojiPicker.querySelector("." + event.target.id).style.display = "block";
-          emojiPicker.querySelector("#" + event.target.id).style.background = "#c2c2c2";
+          emojiPicker.querySelector(".emoji-picker-list-" + event.target.id).style.display = "block";
+          emojiPicker.querySelector("#" + event.target.id).classList.add("active");
         };
 
         emojiInput.style.width = "100%";
 
+        // todo: refactor
         var emojiContainer = document.createElement("div");
-        emojiContainer.style.position = "relative";
+        emojiContainer.classList.add("emoji-picker-container");
 
         var parent = emojiInput.parentNode;
         parent.replaceChild(emojiContainer, emojiInput);
@@ -107,42 +107,16 @@
 
         var emojiPicker = document.createElement("div");
         emojiPicker.tabIndex = 0;
+        emojiPicker.classList.add("emoji-picker");
 
-        if (emojiInput.hasAttribute("data-meteor-emoji-large")) {
-          emojiPicker.style.zIndex = "999";
-          emojiPicker.style.display = "block";
-          emojiPicker.style.width = "100%";
-          emojiPicker.style.marginBottom = "15px";
-        } else {
-          emojiPicker.style.position = "absolute";
-          emojiPicker.style.right = "0px";
-          emojiPicker.style.top = "30px";
-          emojiPicker.style.display = "none";
-          emojiPicker.style.width = "400px";
-        }
-        emojiPicker.style.zIndex = "999";
-        emojiPicker.style.overflow = "hidden";
-        emojiPicker.style.background = "#fff";
-        emojiPicker.style.borderRadius = "5px";
-        emojiPicker.style.boxShadow = "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-        emojiPicker.style.borderRadius = "2px;";
-        emojiPicker.style.marginTop = "5px";
-        emojiPicker.style.outline = "none";
+        if (emojiInput.hasAttribute("data-meteor-emoji-large")) {}
 
-        var emojiTrigger = document.createElement("a");
-        emojiTrigger.style.position = "absolute";
-        emojiTrigger.style.top = "10px";
-        emojiTrigger.style.right = "10px";
-        emojiTrigger.style.textDecoration = "none";
-        emojiTrigger.setAttribute("href", "javascript:void(0)");
+        var emojiTrigger = document.createElement("button");
+        emojiTrigger.classList.add("emoji-picker-trigger");
 
         emojiTrigger.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 12 14"><path d="M8.9 8.4q-0.3 0.9-1.1 1.5t-1.8 0.6-1.8-0.6-1.1-1.5q-0.1-0.2 0-0.4t0.3-0.2q0.2-0.1 0.4 0t0.2 0.3q0.2 0.6 0.7 1t1.2 0.4 1.2-0.4 0.7-1q0.1-0.2 0.3-0.3t0.4 0 0.3 0.2 0 0.4zM5 5q0 0.4-0.3 0.7t-0.7 0.3-0.7-0.3-0.3-0.7 0.3-0.7 0.7-0.3 0.7 0.3 0.3 0.7zM9 5q0 0.4-0.3 0.7t-0.7 0.3-0.7-0.3-0.3-0.7 0.3-0.7 0.7-0.3 0.7 0.3 0.3 0.7zM11 7q0-1-0.4-1.9t-1.1-1.6-1.6-1.1-1.9-0.4-1.9 0.4-1.6 1.1-1.1 1.6-0.4 1.9 0.4 1.9 1.1 1.6 1.6 1.1 1.9 0.4 1.9-0.4 1.6-1.1 1.1-1.6 0.4-1.9zM12 7q0 1.6-0.8 3t-2.2 2.2-3 0.8-3-0.8-2.2-2.2-0.8-3 0.8-3 2.2-2.2 3-0.8 3 0.8 2.2 2.2 0.8 3z"/></svg>';
         emojiTrigger.onclick = function () {
-          if (emojiPicker.style.display === "none") {
-            emojiPicker.style.display = "block";
-          } else if (emojiPicker.style.display === "block") {
-            emojiPicker.style.display = "none";
-          }
+          emojiContainer.classList.toggle("emoji-picker-open");
           emojiPicker.focus();
         };
 
@@ -151,77 +125,40 @@
         }
 
         window.addEventListener('click', function (e) {
-
           if (!emojiInput.hasAttribute("data-meteor-emoji-large")) {
-            if (emojiPicker.style.display === "block") {
+            if (emojiContainer.classList.contains("emoji-picker-open")) {
               if (emojiPicker.contains(e.target) || emojiTrigger.contains(e.target)) {} else {
-                emojiPicker.style.display = "none";
+                emojiContainer.classList.remove("emoji-picker-open");
               }
             }
           }
         });
 
         var facesCategory = document.createElement("ul");
-        facesCategory.style.padding = "10px 0px";
-        facesCategory.style.margin = "0";
-        facesCategory.style.listStyle = "none";
-        facesCategory.style.textAlign = "left";
-        facesCategory.style.marginLeft = "3%";
-        facesCategory.classList.add("faces");
+        facesCategory.classList.add("emoji-picker-list", "emoji-picker-list-faces");
 
         var animalsCategory = document.createElement("ul");
-        animalsCategory.style.padding = "10px 0px";
-        animalsCategory.style.margin = "0";
-        animalsCategory.style.listStyle = "none";
-        animalsCategory.style.textAlign = "left";
-        animalsCategory.style.marginLeft = "3%";
-        animalsCategory.classList.add("animals");
+        animalsCategory.classList.add("emoji-picker-list", "emoji-picker-list-animals");
         animalsCategory.style.display = "none";
 
         var foodCategory = document.createElement("ul");
-        foodCategory.style.padding = "10px 0px";
-        foodCategory.style.margin = "0";
-        foodCategory.style.listStyle = "none";
-        foodCategory.style.textAlign = "left";
-        foodCategory.style.marginLeft = "3%";
-        foodCategory.classList.add("food");
+        foodCategory.classList.add("emoji-picker-list", "emoji-picker-list-food");
         foodCategory.style.display = "none";
 
         var sportCategory = document.createElement("ul");
-        sportCategory.style.padding = "10px 0px";
-        sportCategory.style.margin = "0";
-        sportCategory.style.listStyle = "none";
-        sportCategory.style.textAlign = "left";
-        sportCategory.style.marginLeft = "3%";
-        sportCategory.classList.add("sport");
+        sportCategory.classList.add("emoji-picker-list", "emoji-picker-list-sport");
         sportCategory.style.display = "none";
 
         var transportCategory = document.createElement("ul");
-        transportCategory.style.padding = "10px 0px";
-        transportCategory.style.margin = "0";
-        transportCategory.style.listStyle = "none";
-        transportCategory.style.textAlign = "left";
-        transportCategory.style.marginLeft = "3%";
-        transportCategory.classList.add("transport");
+        transportCategory.classList.add("emoji-picker-list", "emoji-picker-list-transport");
         transportCategory.style.display = "none";
 
         var objectsCategory = document.createElement("ul");
-        objectsCategory.style.padding = "10px 0px";
-        objectsCategory.style.margin = "0";
-        objectsCategory.style.listStyle = "none";
-        objectsCategory.style.textAlign = "left";
-        objectsCategory.style.marginLeft = "3%";
-        objectsCategory.classList.add("objects");
+        objectsCategory.classList.add("emoji-picker-list", "emoji-picker-list-objects");
         objectsCategory.style.display = "none";
 
         var emojiCategory = document.createElement("ul");
-        emojiCategory.style.padding = "0px";
-        emojiCategory.style.margin = "0";
-        emojiCategory.style.display = "table";
-        emojiCategory.style.width = "100%";
-        emojiCategory.style.background = "#eff0f1";
-        emojiCategory.style.listStyle = "none";
-        emojiCategory.classList.add("category");
+        emojiCategory.classList.add("emoji-picker-tabs");
 
         var emojiCategories = new Array();
         emojiCategories.push({ name: 'faces', svg: '<svg id="faces" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 150 150"><path id="faces" d="M74.34,128.48a53.5,53.5,0,1,1,37.84-15.67,53.16,53.16,0,0,1-37.84,15.67Zm0-97.89a44.4,44.4,0,1,0,31.4,13,44.07,44.07,0,0,0-31.4-13Z"/><path id="faces" d="M74.35,108A33.07,33.07,0,0,1,41.29,75a2.28,2.28,0,0,1,2.27-2.28h0A2.27,2.27,0,0,1,45.83,75a28.52,28.52,0,0,0,57,0,2.27,2.27,0,0,1,4.54,0A33.09,33.09,0,0,1,74.35,108Z"/><path id="faces" d="M58.84,62a6.81,6.81,0,1,0,6.81,6.81A6.81,6.81,0,0,0,58.84,62Z"/><path id="faces" d="M89.87,62a6.81,6.81,0,1,0,6.81,6.81A6.82,6.82,0,0,0,89.87,62Z"/></svg>' });
@@ -244,106 +181,55 @@
         var objects = [0x1F392, 0x1F388, 0x1F389, 0x1F38F, 0x1F393, 0x1F3A1, 0x1F3A2, 0x1F3A4, 0x1F3A5, 0x1F3A7, 0x1F3A8, 0x1F3AB, 0x1F3AC, 0x1F3AE, 0x1F3AF, 0x1F3B6, 0x1F3B7, 0x1F3B8, 0x1F3B9, 0x1F3BA, 0x1F3BB, 0x1F3BC, 0x1F3E0, 0x1F3E5, 0x1F3EA, 0x1F493, 0x1F494, 0x1F495, 0x1F496, 0x1F497, 0x1F498, 0x1F4BB, 0x1F4BA, 0x1F4C5, 0x1F4D5, 0x1F4F7];
 
         emojiCategories.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.padding = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.style.display = "table-cell";
-          emojiLink.style.textAlign = "center";
-          emojiLink.id = String(item['name']);
+          var emojiLi = document.createElement("li");
+          var emojiAnchor = document.createElement("a");
+          emojiAnchor.setAttribute("href", "javascript:void(0)");
+          emojiAnchor.id = String(item['name']);
+          emojiAnchor.classList.add("emoji-picker-anchor");
 
           if (String(item["name"]) == "faces") {
-            emojiLink.style.background = "#c2c2c2";
+            emojiAnchor.classList.add("active");
           }
-          emojiLink.innerHTML = String(item['svg']);
+          emojiAnchor.innerHTML = String(item['svg']);
+          emojiAnchor.onmousedown = clickCategory;
 
-          emojiLink.onmousedown = clickCategory;
-
-          emojiCategory.appendChild(emojiLink);
+          emojiLi.appendChild(emojiAnchor);
+          emojiCategory.appendChild(emojiLi);
         });
 
-        faces.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
+        var renderEmoji = function renderEmoji(item, category) {
+          var emojiLi = document.createElement("li");
+          var emojiLink = document.createElement("button");
+          emojiLink.classList.add("emoji-picker-emoji");
           emojiLink.innerHTML = String.fromCodePoint(item);
           emojiLink.onmousedown = clickLink;
 
-          facesCategory.appendChild(emojiLink);
+          emojiLi.appendChild(emojiLink);
+          category.appendChild(emojiLi);
+        };
+
+        faces.map(function (item) {
+          renderEmoji(item, facesCategory);
         });
 
         animals.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.innerHTML = String.fromCodePoint(item);
-          emojiLink.onmousedown = clickLink;
-
-          animalsCategory.appendChild(emojiLink);
+          renderEmoji(item, animalsCategory);
         });
 
         food.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.innerHTML = String.fromCodePoint(item);
-          emojiLink.onmousedown = clickLink;
-
-          foodCategory.appendChild(emojiLink);
+          renderEmoji(item, foodCategory);
         });
 
         sport.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.innerHTML = String.fromCodePoint(item);
-          emojiLink.onmousedown = clickLink;
-
-          sportCategory.appendChild(emojiLink);
+          renderEmoji(item, sportCategory);
         });
 
         transport.map(function (item) {
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.innerHTML = String.fromCodePoint(item);
-          emojiLink.onmousedown = clickLink;
-
-          transportCategory.appendChild(emojiLink);
+          renderEmoji(item, transportCategory);
         });
 
         objects.map(function (item) {
-          var emojiLi = document.createElement("li");
-          emojiLi.style.display = "inline-block";
-          emojiLi.style.margin = "5px";
-
-          var emojiLink = document.createElement("a");
-          emojiLink.style.textDecoration = "none";
-          emojiLink.style.margin = "5px";
-          emojiLink.style.position = "initial";
-          emojiLink.style.fontSize = "24px";
-          emojiLink.setAttribute("href", "javascript:void(0)");
-          emojiLink.innerHTML = String.fromCodePoint(item);
-          emojiLink.onmousedown = clickLink;
-
-          objectsCategory.appendChild(emojiLink);
+          renderEmoji(item, objectsCategory);
         });
 
         emojiPicker.appendChild(emojiCategory);
