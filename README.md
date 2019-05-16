@@ -2,6 +2,8 @@
 
 > After trapsing through a tonne of emoji pickers for Meteor project. It became pretty apparent that most of them didn't work, or were just pretty terrible. This emoji picker is pure, vanilla JavaScript, so should be compatible with most JS projects. However, I've specifically built this for the intent to use with Meteor. 
 
+Demo: https://native-emoji-picker.netlify.com
+
 ## How do I use it?
 
 This plugin can be installed via NPM:
