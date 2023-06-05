@@ -1,10 +1,10 @@
-class MeteorEmoji {
+class nativeEmoji {
   constructor() {
     this.initiate();
   }
 
   initiate() {
-    const emojiInputs = document.querySelectorAll('[data-meteor-emoji="true"], [data-meteor-emoji-large="true"]');
+    const emojiInputs = document.querySelectorAll('[data-native-emoji="true"], [data-native-emoji-large="true"]');
 
     emojiInputs.forEach(element => {
       this.generateElements(element);
@@ -64,7 +64,7 @@ class MeteorEmoji {
     emojiPicker.tabIndex = 0;
     emojiPicker.classList.add("emoji-picker");
 
-    if (emojiInput.hasAttribute("data-meteor-emoji-large")) {
+    if (emojiInput.hasAttribute("data-native-emoji-large")) {
 
     }
 
@@ -78,12 +78,12 @@ class MeteorEmoji {
       emojiPicker.focus();
     };
     
-    if (!emojiInput.hasAttribute("data-meteor-emoji-large")) {
+    if (!emojiInput.hasAttribute("data-native-emoji-large")) {
       emojiContainer.appendChild(emojiTrigger);
     }
 
     window.addEventListener('click', function(e){
-      if (!emojiInput.hasAttribute("data-meteor-emoji-large")) {
+      if (!emojiInput.hasAttribute("data-native-emoji-large")) {
         if (emojiContainer.classList.contains("emoji-picker-open")) {
           if (emojiPicker.contains(e.target) || emojiTrigger.contains(e.target)) {
 
@@ -428,5 +428,5 @@ class MeteorEmoji {
   }
 }
 
-module.exports = MeteorEmoji;
+module.exports = nativeEmoji;
  

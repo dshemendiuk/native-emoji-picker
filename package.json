@@ -5,16 +5,15 @@
   "bugs": {
     "url": "https://github.com/dshemendiuk/native-emoji-picker/issues"
   },
-  "dependencies": {
-    "uglifyjs": "^2.4.11"
-  },
+  "dependencies": {},
   "deprecated": false,
-  "description": "A pure JS native emojies picker",
+  "description": "A pure JS emojies picker. Uses the native system/browser's emojis without adding extra images",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.4",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babelify": "^7.3.0",
+    "babelify": "^10.0.0",
     "browserify": "^14.5.0",
+    "clean-css-cli": "^5.6.2",
     "uglify-js": "^2.8.22"
   },
   "homepage": "https://github.com/dshemendiuk/native-emoji-picker",
@@ -22,19 +21,22 @@
     "native-emoji-picker",
     "meteor-emoji-picker",
     "js-emoji",
+    "emoji-picker",
     "emoji"
   ],
   "license": "MIT",
-  "main": "dist/meteorEmoji.min.js",
-  "name": "meteor-emoji",
+  "main": "dist/nativeEmoji.min.js",
+  "name": "native-emoji",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dshemendiuk/native-emoji-picker.git"
   },
   "scripts": {
-    "build-debug": "browserify src/meteorEmoji.js -s MeteorEmoji -t [babelify] -o dist/meteorEmoji.js",
-    "build-min": "uglifyjs dist/meteorEmoji.js -c -o dist/meteorEmoji.min.js",
+    "build-debug": "browserify src/nativeEmoji.js -s nativeEmoji -t [babelify] -o dist/nativeEmoji.js",
+    "build-min": "uglifyjs dist/nativeEmoji.js -c -o dist/nativeEmoji.min.js",
+    "build-css": "cleancss -o dist/nativeEmoji.min.css src/nativeEmoji.css",
+    "build": "npm run build-debug && npm run build-min && npm run build-css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.1.7"
+  "version": "0.2.0"
 }
