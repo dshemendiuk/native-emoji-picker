@@ -6,7 +6,7 @@ This emoji picker is pure, vanilla JavaScript, so should be compatible with most
 
 Demo: https://native-emoji-picker.netlify.com
 
-![native-emoji](native-emoji.png "Textarea usage")
+![native-emoji](https://native-emoji-picker.netlify.app/native-emoji.png "Textarea usage")
 
 ## How do I use it?
 

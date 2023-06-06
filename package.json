@@ -1,4 +1,5 @@
 {
+  "version": "0.2.2",
   "author": {
     "name": "George McCann, Dima Shemendiuk"
   },
@@ -37,6 +38,5 @@
     "build-css": "cleancss -o dist/nativeEmoji.min.css src/nativeEmoji.css",
     "build": "npm run build-debug && npm run build-min && npm run build-css",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "0.2.1"
+  }
 }
